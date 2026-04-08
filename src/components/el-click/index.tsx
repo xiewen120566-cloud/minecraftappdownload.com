@@ -63,7 +63,7 @@ const ElClick: React.FC = () => {
       //     ...adData,
       //   },
       // }));
-      window.ttq.track("ClickButton");
+      window.ttq?.track?.("ClickButton");
     }
   }, [collectAdData]);
 
@@ -86,7 +86,7 @@ const ElClick: React.FC = () => {
         //     ...adData,
         //   },
         // }));
-        window.ttq.track("ClickButton");
+        window.ttq?.track?.("ClickButton");
         console.log(JSON.stringify(adData));
         // 使用更简洁的方式触发像素跟踪
         isBeforeUnloadHandled.current = true;
@@ -118,6 +118,18 @@ const ElClick: React.FC = () => {
   useEffectEvent("beforeunload", handleBeforeUnload);
   useEffectEvent("blur", handleBlur);
   useEffectEvent("visibilitychange", handleVisibilityChange);
+
+  useEffect(() => {
+    const handler = (event: PointerEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+      const adContainer = target.closest(".gpt-slot") || target.closest(".ad-placeholder") || target.closest(".adsbygoogle");
+      if (!adContainer) return;
+      window.ttq?.track?.("ClickButton");
+    };
+    window.addEventListener("pointerdown", handler, true);
+    return () => window.removeEventListener("pointerdown", handler, true);
+  }, []);
 
   return null; // This component does not render anything
 };
