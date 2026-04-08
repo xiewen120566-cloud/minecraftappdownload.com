@@ -25,7 +25,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { getTargetHref, randomGames} from "@/utils";
-import ElTemplate from "@/components/el-temlplate";
+import Script from "next/script";
 interface Props {
   params: {
     locale: Locale;
@@ -74,7 +74,27 @@ export default async function Page({
     <>
       <Header hostname={hostname} categories={categories} />
       <Container maxWidth="container.xl" px={{ base: 3, md: 4, lg: 6 }} pt={{ base: 4, md: 6 }}>
-        <ElTemplate id="div-gpt-ad-1775227994462-0" style={{ minWidth: 300, minHeight: 250 }} />
+        <div className="ad-placeholder" style={{ textAlign: "center", paddingBlock: 12, minHeight: 250 }}>
+          <div id="300x250-1" className="gpt-slot" style={{ minWidth: 300, minHeight: 250 }} />
+        </div>
+        <Script
+          id="gpt-300x250-1-detail"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+window.googletag=window.googletag||{cmd:[]};
+googletag.cmd.push(function(){
+  if (!window.__adPlusSlots) window.__adPlusSlots = {};
+  if (!window.__adPlusSlots['300x250-1']) {
+    window.__adPlusSlots['300x250-1'] = true;
+    googletag.defineSlot('/21849154601,23294547171/Ad.Plus-300x250',[300,250],'300x250-1').addService(googletag.pubads());
+  }
+  googletag.enableServices();
+  googletag.display('300x250-1');
+});
+            `,
+          }}
+        />
       </Container>
       <Container maxWidth="container.xl" px={{ base: 3, md: 4, lg: 6 }} py={{ base: 4, md: 6 }}>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 6, lg: 10 }}>

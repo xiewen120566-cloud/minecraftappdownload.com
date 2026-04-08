@@ -4,7 +4,6 @@ import { PropsWithChildren } from "react";
 import Script from "next/script";
 
 import { Locale } from "@/i18n/routing";
-import ElTemplate from "@/components/el-temlplate";
 
 import { Providers } from "./providers";
 
@@ -38,22 +37,14 @@ window.googletag = window.googletag || { cmd: [] };
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-window.googletag = window.googletag || { cmd: [] };
-window.googletag.cmd.push(function() {
-  window.__gptSlots = window.__gptSlots || {};
-  window.__gptSlots['div-gpt-ad-1775227994462-0'] = window.googletag.defineSlot(
-    '/23319049762/ad-2',
-    [[300, 250]],
-    'div-gpt-ad-1775227994462-0'
-  ).addService(window.googletag.pubads());
-  window.__gptSlots['div-gpt-ad-1775227994462-1'] = window.googletag.defineSlot(
-    '/23319049762/ad-2',
-    [[320, 50], [320, 100]],
-    'div-gpt-ad-1775227994462-1'
-  ).addService(window.googletag.pubads());
-  window.googletag.pubads().collapseEmptyDivs(true);
-  window.googletag.pubads().enableSingleRequest();
-  window.googletag.enableServices();
+window.googletag = window.googletag || {cmd: []};
+googletag.cmd.push(function(){
+  if (!window.__adPlusSlots) window.__adPlusSlots = {};
+  if (!window.__adPlusSlots['300x250-1']) {
+    window.__adPlusSlots['300x250-1'] = true;
+    googletag.defineSlot('/21849154601,23294547171/Ad.Plus-300x250',[300,250],'300x250-1').addService(googletag.pubads());
+  }
+  googletag.enableServices();
 });
             `,
           }}
@@ -63,14 +54,6 @@ window.googletag.cmd.push(function() {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             {children}
-            <div className="gpt-sticky-bottom">
-              <div className="gpt-sticky-bottom__inner">
-                <ElTemplate
-                  id="div-gpt-ad-1775227994462-1"
-                  style={{ width: 320, height: 100 }}
-                />
-              </div>
-            </div>
           </Providers>
         </NextIntlClientProvider>
       </body>
