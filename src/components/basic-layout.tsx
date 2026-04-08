@@ -4,6 +4,7 @@ import { PropsWithChildren } from "react";
 import Script from "next/script";
 
 import { Locale } from "@/i18n/routing";
+import ElTemplate from "@/components/el-temlplate";
 
 import { Providers } from "./providers";
 
@@ -32,6 +33,31 @@ window.googletag = window.googletag || { cmd: [] };
           crossOrigin="anonymous"
           strategy="beforeInteractive"
         />
+        <Script
+          id="google-gpt-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+window.googletag = window.googletag || { cmd: [] };
+window.googletag.cmd.push(function() {
+  window.__gptSlots = window.__gptSlots || {};
+  window.__gptSlots['div-gpt-ad-1775227994462-0'] = window.googletag.defineSlot(
+    '/23319049762/ad-2',
+    [[300, 250]],
+    'div-gpt-ad-1775227994462-0'
+  ).addService(window.googletag.pubads());
+  window.__gptSlots['div-gpt-ad-1775227994462-1'] = window.googletag.defineSlot(
+    '/23319049762/ad-2',
+    [[320, 50], [320, 100]],
+    'div-gpt-ad-1775227994462-1'
+  ).addService(window.googletag.pubads());
+  window.googletag.pubads().collapseEmptyDivs(true);
+  window.googletag.pubads().enableSingleRequest();
+  window.googletag.enableServices();
+});
+            `,
+          }}
+        />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
@@ -39,49 +65,9 @@ window.googletag = window.googletag || { cmd: [] };
             {children}
             <div className="gpt-sticky-bottom">
               <div className="gpt-sticky-bottom__inner">
-                <div className="ad-placeholder" style={{ textAlign: "center", paddingBlock: 12 }}>
-                  <div
-                    id="320x100-1"
-                    className="gpt-slot"
-                    style={{ width: 320, height: 100, display: "none" }}
-                  />
-                  <div
-                    id="320x50-1"
-                    className="gpt-slot"
-                    style={{ width: 320, height: 50, display: "none" }}
-                  />
-                </div>
-                <Script
-                  id="gpt-sticky-320"
-                  strategy="afterInteractive"
-                  dangerouslySetInnerHTML={{
-                    __html: `
-window.googletag = window.googletag || { cmd: [] };
-googletag.cmd.push(function() {
-  var useSmall = false;
-  try {
-    useSmall = !!(window.matchMedia && window.matchMedia("(max-height: 700px)").matches);
-  } catch (e) {}
-  var showId = useSmall ? "320x50-1" : "320x100-1";
-  var hideId = useSmall ? "320x100-1" : "320x50-1";
-  var showEl = document.getElementById(showId);
-  var hideEl = document.getElementById(hideId);
-  if (showEl) showEl.style.display = "block";
-  if (hideEl) hideEl.style.display = "none";
-  if (!window.__adPlusSlots) window.__adPlusSlots = {};
-  if (!window.__adPlusSlots[showId]) {
-    window.__adPlusSlots[showId] = true;
-    if (useSmall) {
-      googletag.defineSlot('/21849154601,23294547171/Ad.Plus-320x50', [320, 50], '320x50-1').addService(googletag.pubads());
-    } else {
-      googletag.defineSlot('/21849154601,23294547171/Ad.Plus-320x100', [320, 100], '320x100-1').addService(googletag.pubads());
-    }
-  }
-  googletag.enableServices();
-  googletag.display(showId);
-});
-                    `,
-                  }}
+                <ElTemplate
+                  id="div-gpt-ad-1775227994462-1"
+                  style={{ width: 320, height: 100 }}
                 />
               </div>
             </div>
