@@ -6,7 +6,7 @@ export default function Footer() {
   const baseUrlInput = (process.env.BASE_URL ?? "")
     .trim()
     .replace(/^['"]+|['"]+$/g, "");
-  const baseUrl = baseUrlInput || "https://minecraftappdownload.com";
+  const baseUrl = baseUrlInput || "https://www.minecraftappdownload.com";
   const normalizedBaseUrl =
     baseUrl.startsWith("http://") || baseUrl.startsWith("https://")
       ? baseUrl
